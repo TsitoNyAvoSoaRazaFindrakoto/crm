@@ -2,7 +2,6 @@ package site.easy.to.build.crm.controller;
 
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -36,7 +35,6 @@ public class ManagerController {
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired
     public ManagerController(AuthenticationUtils authenticationUtils, UserProfileService userProfileService, UserService userService,
                              Environment environment, GoogleGmailApiService googleGmailApiService, RoleService roleService, PasswordEncoder passwordEncoder) {
         this.authenticationUtils = authenticationUtils;
