@@ -1,6 +1,5 @@
 package site.easy.to.build.crm.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -35,7 +34,6 @@ public class HomePageController {
     private final GoogleCalendarApiService googleCalendarApiService;
     private final CustomerLoginInfoService customerLoginInfoService;
 
-    @Autowired
     public HomePageController(TicketService ticketService, CustomerService customerService, ContractService contractService, LeadService leadService,
                               WeatherService weatherService, AuthenticationUtils authenticationUtils, GoogleCalendarApiService googleCalendarApiService,
                               CustomerLoginInfoService customerLoginInfoService) {
