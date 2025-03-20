@@ -2,7 +2,6 @@ package site.easy.to.build.crm.controller;
 
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -43,7 +42,6 @@ public class TicketController {
     private final EntityManager entityManager;
 
 
-    @Autowired
     public TicketController(TicketService ticketService, AuthenticationUtils authenticationUtils, UserService userService, CustomerService customerService,
                             TicketEmailSettingsService ticketEmailSettingsService, GoogleGmailApiService googleGmailApiService, EntityManager entityManager) {
         this.ticketService = ticketService;
