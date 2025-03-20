@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -64,7 +63,6 @@ public class ContractController {
     private final ContractEmailSettingsService contractEmailSettingsService;
     private final GoogleGmailApiService googleGmailApiService;
 
-    @Autowired
     public ContractController(ContractService contractService, AuthenticationUtils authenticationUtils, UserService userService,
                               CustomerService customerService, LeadService leadService, GoogleDriveApiService googleDriveApiService,
                               FileUtil fileUtil, FileService fileService, GoogleDriveFileService googleDriveFileService,
