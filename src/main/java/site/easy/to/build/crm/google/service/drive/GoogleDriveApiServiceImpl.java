@@ -124,7 +124,7 @@ public class  GoogleDriveApiServiceImpl implements GoogleDriveApiService {
             metadataJson.addProperty("mimeType", mimeType);
             JsonArray parentsArray = new JsonArray();
 
-            if (!folderId.isEmpty()) {
+            if (folderId!=null && !folderId.isEmpty() ) {
                 parentsArray.add(folderId);
                 metadataJson.add("parents", parentsArray);
             }
