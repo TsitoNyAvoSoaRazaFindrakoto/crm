@@ -10,7 +10,7 @@ import site.easy.to.build.crm.util.DatabaseCustomUtil;
 @Controller
 @RequestMapping("/quick-action/database")
 @AllArgsConstructor
-public class DatabaseCustomController {
+public class QuickActionsController {
   private DatabaseCustomUtil databaseCustomUtil;
 
   @GetMapping()
