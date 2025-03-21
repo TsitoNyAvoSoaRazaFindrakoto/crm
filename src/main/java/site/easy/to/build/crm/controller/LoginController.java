@@ -17,46 +17,46 @@ import java.util.List;
 @Controller
 public class LoginController {
 
-    private final PasswordEncoder passwordEncoder;
-    private final UserService userService;
+  private final PasswordEncoder passwordEncoder;
+  private final UserService userService;
 
-    public LoginController(PasswordEncoder passwordEncoder, UserService userService) {
-        this.passwordEncoder = passwordEncoder;
-        this.userService = userService;
-    }
+  public LoginController(PasswordEncoder passwordEncoder, UserService userService) {
+    this.passwordEncoder = passwordEncoder;
+    this.userService = userService;
+  }
 
-    @RequestMapping("/login")
-    public String loginPage() {
-        return "login";
-    }
+  @RequestMapping("/login")
+  public String loginPage() {
+    return "login";
+  }
 
-    @GetMapping("/change-password")
-    public String usernameConfirmationForm() {
-        return "change-password";
-    }
+  @GetMapping("/change-password")
+  public String usernameConfirmationForm() {
+    return "change-password";
+  }
 
-    @PostMapping("/change-password")
-    public String confirmUsername(@RequestParam("username") @Nullable String username, @RequestParam("password") @Nullable String password, RedirectAttributes redirectAttributes, HttpSession session) {
-        if(username == null || username.isEmpty()) {
-            redirectAttributes.addFlashAttribute("usernameError", "Username is required");
-            return "redirect:/password-changing";
-        }
-        List<User> currUser = userService.findByUsername(username);
-        if(currUser == null || currUser.isEmpty()) {
-            redirectAttributes.addFlashAttribute("usernameError", "Incorrect username. Please provide a correct username");
-            return "redirect:/password-changing";
-        }
-        if(password == null || password.isEmpty()) {
-            redirectAttributes.addFlashAttribute("passwordError", "Password is required");
-            return "redirect:/password-changing";
-        }
-        User user = currUser.get(0);
-        String hashPassword = passwordEncoder.encode(password);
-        user.setPassword(hashPassword);
-        user.setPasswordSet(true);
-        userService.save(user);
-        redirectAttributes.addFlashAttribute("passwordSuccess", "You have successfully changed your password");
-        return "redirect:/login";
+  @PostMapping("/change-password")
+  public String confirmUsername(@RequestParam("username") @Nullable String username, @RequestParam("password") @Nullable String password, RedirectAttributes redirectAttributes, HttpSession session) {
+    if (username == null || username.isEmpty()) {
+      redirectAttributes.addFlashAttribute("usernameError", "Username is required");
+      return "redirect:/password-changing";
     }
+    List<User> currUser = userService.findByUsername(username);
+    if (currUser == null || currUser.isEmpty()) {
+      redirectAttributes.addFlashAttribute("usernameError", "Incorrect username. Please provide a correct username");
+      return "redirect:/password-changing";
+    }
+    if (password == null || password.isEmpty()) {
+      redirectAttributes.addFlashAttribute("passwordError", "Password is required");
+      return "redirect:/password-changing";
+    }
+    User user = currUser.get(0);
+    String hashPassword = passwordEncoder.encode(password);
+    user.setPassword(hashPassword);
+    user.setPasswordSet(true);
+    userService.save(user);
+    redirectAttributes.addFlashAttribute("passwordSuccess", "You have successfully changed your password");
+    return "redirect:/login";
+  }
 
 }
