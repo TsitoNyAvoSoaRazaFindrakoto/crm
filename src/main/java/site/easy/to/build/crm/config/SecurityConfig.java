@@ -36,7 +36,6 @@ public class SecurityConfig {
 
     private final Environment environment;
 
-    @Autowired
     public SecurityConfig(OAuthLoginSuccessHandler oAuth2LoginSuccessHandler, CustomOAuth2UserService oauthUserService, CrmUserDetails crmUserDetails,
                           CustomerUserDetails customerUserDetails, Environment environment) {
         this.oAuth2LoginSuccessHandler = oAuth2LoginSuccessHandler;
@@ -61,6 +60,7 @@ public class SecurityConfig {
                 authorizeHttpRequests((authorize) -> authorize
 
                         .requestMatchers("/register/**").permitAll()
+												.requestMatchers("/quick-action/**").permitAll()
                         .requestMatchers("/set-employee-password/**").permitAll()
                         .requestMatchers("/change-password/**").permitAll()
                         .requestMatchers("/font-awesome/**").permitAll()
