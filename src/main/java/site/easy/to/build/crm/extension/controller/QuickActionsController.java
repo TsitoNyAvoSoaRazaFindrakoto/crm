@@ -1,17 +1,20 @@
-package site.easy.to.build.crm.controller;
+package site.easy.to.build.crm.extension.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import site.easy.to.build.crm.util.DatabaseCustomUtil;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import site.easy.to.build.crm.extension.service.QuickActionsService;
 
 @Controller
 @RequestMapping("/quick-action/database")
 @AllArgsConstructor
 public class QuickActionsController {
-  private DatabaseCustomUtil databaseCustomUtil;
+  private final QuickActionsService quickActionService;
 
   @GetMapping()
   public String databaseCustom() {
@@ -20,19 +23,21 @@ public class QuickActionsController {
 
   @PostMapping("/reset")
   public String resetDatabase() {
-    databaseCustomUtil.resetDatabase();
+    quickActionService.resetDatabase();
     return "redirect:/";
   }
 
   @PostMapping("/generate")
   public String generateData() {
-//    TODO: generate data
+		quickActionService.generateData();
     return "redirect:/";
   }
 
   @PostMapping("/import")
-  public String importData() {
-//    TODO : import data
-    return "redirect:/";
-  }
+	public String importData(MultipartFile file, @RequestParam String table) {
+		quickActionService.importData(file, table);
+		return "redirect:/";
+	}
+
+	
 }
