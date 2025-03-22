@@ -7,7 +7,7 @@ This guide will help you set up and run the CRM Web Application on your system.
 Before installing the CRM application, ensure you have the following:
 
 - Java 17 or later installed
-- MySQL 5.7 or later database server
+- MySQL 8.0
 - Maven 3.6 or later for building the application
 - Google API credentials for integration with Google services (Drive, Gmail, Calendar)
 - Modern web browser (Chrome, Firefox, Edge, Safari)

@@ -1,5 +1,6 @@
 package site.easy.to.build.crm.controller;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,7 @@ public class UrlAccessController {
     private final RequestMappingHandlerMapping handlerMapping;
     private final UserService userService;
 
-    public UrlAccessController(RequestMappingHandlerMapping handlerMapping, UserService userService) {
+    public UrlAccessController(@Qualifier("requestMappingHandlerMapping") RequestMappingHandlerMapping handlerMapping, UserService userService) {
         this.handlerMapping = handlerMapping;
         this.userService = userService;
     }
