@@ -14,30 +14,29 @@ import site.easy.to.build.crm.extension.service.QuickActionsService;
 @RequestMapping("/quick-action/database")
 @AllArgsConstructor
 public class QuickActionsController {
-  private final QuickActionsService quickActionService;
+	private final QuickActionsService quickActionService;
 
-  @GetMapping()
-  public String databaseCustom() {
-    return "quick-action/database";
-  }
-
-  @PostMapping("/reset")
-  public String resetDatabase() {
-    quickActionService.resetDatabase();
-    return "redirect:/";
-  }
-
-  @PostMapping("/generate")
-  public String generateData() {
-		quickActionService.generateData();
-    return "redirect:/";
-  }
-
-  @PostMapping("/import")
-	public String importData(MultipartFile file, @RequestParam String table) {
-		quickActionService.importData(file, table);
-		return "redirect:/";
+	@GetMapping()
+	public String databaseCustom() {
+		return "quick-action/database";
 	}
 
-	
+	@GetMapping("/reset")
+	public String resetDatabase() {
+		quickActionService.resetDatabase();
+		return "redirect:/login";
+	}
+
+	@PostMapping("/generate")
+	public String generateData() {
+		quickActionService.generateData();
+		return "redirect:/login";
+	}
+
+	@PostMapping("/import")
+	public String importData(MultipartFile file, @RequestParam String table) {
+		quickActionService.importData(file, table);
+		return "redirect:/login";
+	}
+
 }
