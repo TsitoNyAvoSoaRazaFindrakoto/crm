@@ -33,7 +33,8 @@ public class DbReset {
     tables.forEach(table -> {
       jdbcTemplate.execute("truncate table " + table);
     });
-    jdbcTemplate.execute("set foreign_key_checks=1");
+		jdbcTemplate.execute("set foreign_key_checks=1");
+		System.out.println("Database reset successfully");
   }
 
 }
