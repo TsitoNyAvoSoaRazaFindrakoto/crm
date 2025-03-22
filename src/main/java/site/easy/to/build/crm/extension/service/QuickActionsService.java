@@ -22,7 +22,7 @@ public class QuickActionsService {
   }
 
 	public int importData(MultipartFile file, String clazz) {
-		dbImport.
+		// TODO : import data
     return 0;
   }
 }
