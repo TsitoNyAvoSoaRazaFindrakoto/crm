@@ -16,83 +16,86 @@ import java.util.Map;
 @AllArgsConstructor
 @Service
 public class ExpenseService {
-    private ExpenseRepository expenseRepository;
-    private final TicketService ticketService;
-    private final LeadService leadService;
-    private final CustomerService customerService;
+  private ExpenseRepository expenseRepository;
+  private final TicketService ticketService;
+  private final LeadService leadService;
+  private final CustomerService customerService;
 
-    public Expense findById(Integer id) {
-        return expenseRepository.findById(id).orElse(null);
+  public Expense findById(Integer id) {
+    return expenseRepository.findById(id).orElse(null);
+  }
+
+  public List<Expense> findAll() {
+    return expenseRepository.findAll();
+  }
+
+  public Expense save(Expense expense) {
+    if (expense.getBudget().getBudgetId() == null || expense.getBudget().getBudgetId() == 0) {
+      expense.setBudget(null);
     }
+    return expenseRepository.save(expense);
+  }
 
-    public List<Expense> findAll() {
-        return expenseRepository.findAll();
+  public Expense update(Expense expense) {
+    return expenseRepository.save(expense);
+  }
+
+  public void delete(Expense expense) {
+    expenseRepository.delete(expense);
+  }
+
+  ///  API
+
+  public Map<Integer, Double> getTicketExpensesByCustomer() {
+    List<Customer> customers = customerService.findAll();
+    Map<Integer, Double> customExpense = new HashMap<>();
+    for (Customer customer : customers) {
+      List<Ticket> ticketsCust = ticketService.findCustomerTickets(customer.getCustomerId());
+      Double expense = 0.0;
+      for (Ticket ticket : ticketsCust) {
+        expense += ticket.getExpense().getAmount();
+      }
+      customExpense.put(customer.getCustomerId(), expense);
     }
+    return customExpense;
+  }
 
-    public Expense save(Expense expense) {
-        return expenseRepository.save(expense);
+  public Map<Integer, Double> getLeadExpensesByCustomer() {
+    List<Customer> customers = customerService.findAll();
+    Map<Integer, Double> customExpense = new HashMap<>();
+    for (Customer customer : customers) {
+      List<Lead> leadsCust = leadService.getLeadsByCustomerId(customer.getCustomerId());
+      Double expense = 0.0;
+      for (Lead ticket : leadsCust) {
+        expense += ticket.getExpense().getAmount();
+      }
+      customExpense.put(customer.getCustomerId(), expense);
     }
-
-    public Expense update(Expense expense) {
-        return expenseRepository.save(expense);
-    }
-
-    public void delete(Expense expense) {
-        expenseRepository.delete(expense);
-    }
-
-    ///  API
-
-    public Map<Integer,Double> getTicketExpensesByCustomer(){
-        List<Customer> customers = customerService.findAll();
-        Map<Integer,Double> customExpense = new HashMap<>();
-        for(Customer customer : customers){
-            List<Ticket> ticketsCust = ticketService.findCustomerTickets(customer.getCustomerId());
-            Double expense = 0.0;
-            for (Ticket ticket : ticketsCust) {
-                expense += ticket.getExpense().getAmount();
-            }
-            customExpense.put(customer.getCustomerId(),expense);
-        }
-        return customExpense;
-    }
-    public   Map<Integer,Double> getLeadExpensesByCustomer(){
-        List<Customer> customers = customerService.findAll();
-        Map<Integer,Double> customExpense = new HashMap<>();
-        for(Customer customer : customers){
-            List<Lead> leadsCust = leadService.getLeadsByCustomerId(customer.getCustomerId());
-            Double expense = 0.0;
-            for (Lead ticket : leadsCust) {
-                expense += ticket.getExpense().getAmount();
-            }
-            customExpense.put(customer.getCustomerId(),expense);
-        }
-        return customExpense;
-    }
+    return customExpense;
+  }
 
 
-    public BigDecimal getTotalTicketExpenses() {
-        List<Expense> expenses = expenseRepository.findAllByTicketIsNotNull();
-        return expenses.stream()
-                .map(expense -> BigDecimal.valueOf(expense.getAmount()))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
+  public BigDecimal getTotalTicketExpenses() {
+    List<Expense> expenses = expenseRepository.findAllByTicketIsNotNull();
+    return expenses.stream()
+      .map(expense -> BigDecimal.valueOf(expense.getAmount()))
+      .reduce(BigDecimal.ZERO, BigDecimal::add);
+  }
 
-    public BigDecimal getTotalLeadExpenses() {
-        List<Expense> expenses = expenseRepository.findAllByLeadIsNotNull();
-        return expenses.stream()
-                .map(expense -> BigDecimal.valueOf(expense.getAmount()))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
+  public BigDecimal getTotalLeadExpenses() {
+    List<Expense> expenses = expenseRepository.findAllByLeadIsNotNull();
+    return expenses.stream()
+      .map(expense -> BigDecimal.valueOf(expense.getAmount()))
+      .reduce(BigDecimal.ZERO, BigDecimal::add);
+  }
 
-    public double getTotalExpenses(Integer customerId) {
-        double totalExpenses;
-        double totalLeadExpenses = expenseRepository.sumExpenseLeadByCustomerID(customerId);
-        double totalTicketExpense = expenseRepository.sumExpenseTicketByCustomerID(customerId);
-        totalExpenses =  totalLeadExpenses + totalTicketExpense;
-        return totalExpenses;
-    }
-
+  public double getTotalExpenses(Integer customerId) {
+    double totalExpenses;
+    double totalLeadExpenses = expenseRepository.sumExpenseLeadByCustomerID(customerId);
+    double totalTicketExpense = expenseRepository.sumExpenseTicketByCustomerID(customerId);
+    totalExpenses = totalLeadExpenses + totalTicketExpense;
+    return totalExpenses;
+  }
 
 
 }
