@@ -31,6 +31,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
   List<Expense> findAllByLeadIsNotNull();
 
 
+<<<<<<< HEAD
   @Query("""
     SELECT SUM(e.amount)
     FROM Ticket t
@@ -38,6 +39,23 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
     WHERE t.customer.customerId = :customerId
     """)
   Double sumExpenseTicketByCustomerID(@Param("customerId") Integer customerId);
+=======
+    @Query("""
+            SELECT COALESCE(SUM(e.amount), 0)
+            FROM Ticket t
+            JOIN Expense e ON e.expenseId = t.expense.expenseId
+            WHERE t.customer.customerId = :customerId
+            """)
+    Double sumExpenseTicketByCustomerID(@Param("customerId") Integer customerId);
+
+    @Query("""
+            SELECT COALESCE(SUM(e.amount), 0)
+            FROM Lead l
+            JOIN Expense e ON e.expenseId = l.expense.expenseId
+            WHERE l.customer.customerId = :customerId
+            """)
+    Double sumExpenseLeadByCustomerID(@Param("customerId") Integer customerId);
+>>>>>>> upstream/dev
 
   @Query("""
     SELECT SUM(e.amount)
