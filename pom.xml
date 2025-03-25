@@ -17,7 +17,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<sql.name>root</sql.name>
-		<sql.password>2004</sql.password>
+		<sql.password>root</sql.password>
 	</properties>
 	<dependencies>
 		<dependency>
