@@ -35,6 +35,7 @@ public class Expense {
     @Column(name = "date_expense")
     private LocalDate dateExpense;
 
+//    TODO : to delete
     @ManyToOne
     @JoinColumn(name = "budget_id")
     private Budget budget;
