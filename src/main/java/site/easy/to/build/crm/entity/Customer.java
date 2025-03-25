@@ -7,14 +7,11 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.groups.Default;
 import site.easy.to.build.crm.customValidations.customer.UniqueEmail;
-import site.easy.to.build.crm.extension.util.io.CsvDTO;
-import site.easy.to.build.crm.extension.util.io.dto.CustomerCsv;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "customer")
-@CsvDTO(CustomerCsv.class)
 public class Customer {
 
     public interface CustomerUpdateValidationGroupInclusion {}
