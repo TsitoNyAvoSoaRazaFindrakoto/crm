@@ -9,59 +9,59 @@
 
 <body class="skin-blue fixed-layout">
 <div class="preloader">
-    <div class="loader">
-        <div class="loader__figure"></div>
-        <p class="loader__label">CRM</p>
-    </div>
+  <div class="loader">
+    <div class="loader__figure"></div>
+    <p class="loader__label">CRM</p>
+  </div>
 </div>
 <div id="main-wrapper">
-    <div th:insert="~{/general/header.html}"></div>
-    <div th:insert="~{/general/left-sidebar.html}"></div>
+  <div th:insert="~{/general/header.html}"></div>
+  <div th:insert="~{/general/left-sidebar.html}"></div>
 
-    <div class="page-wrapper">
-        <div class="container-fluid">
-            <div th:insert="~{/general/page-titles.html}"></div>
+  <div class="page-wrapper">
+    <div class="container-fluid">
+      <div th:insert="~{/general/page-titles.html}"></div>
 
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">Générer des données</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Generate data</h4>
 
-                            <form th:action="@{/database/generate}" method="post">
-                                <div class="row mb-4">
-                                    <div class="col-md-3">
-                                        <label>Nombre de clients :</label>
-                                        <input type="number" class="form-control" name="customerCount" min="1"
-                                               max="100" value="10"/>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label>Budgets par client :</label>
-                                        <input type="number" class="form-control" name="budgetPerCustomer" min="0"
-                                               max="10" value="2"/>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label>Tickets par client :</label>
-                                        <input type="number" class="form-control" name="ticketPerCustomer" min="0"
-                                               max="10" value="3"/>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label>Leads par client :</label>
-                                        <input type="number" class="form-control" name="leadPerCustomer" min="0"
-                                               max="10" value="2"/>
-                                    </div>
-                                </div>
-
-                                <button type="submit" class="btn btn-primary">Générer</button>
-                            </form>
-                        </div>
-                    </div>
+              <form th:action="@{/quick-actions/database/generate}" method="post">
+                <div class="row mb-4">
+                  <div class="col-md-3">
+                    <label for="customerCount">Customer count</label>
+                    <input id="customerCount" type="number" class="form-control" name="customerCount" min="1"
+                           max="100" value="10"/>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="budgetPerCustomer"> Customers' budget </label>
+                    <input id="budgetPerCustomer" type="number" class="form-control" name="budgetPerCustomer" min="0"
+                           max="10" value="2"/>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="ticketPerCustomer">Ticket per Customer</label>
+                    <input id="ticketPerCustomer" type="number" class="form-control" name="ticketPerCustomer" min="0"
+                           max="10" value="3"/>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="leadPerCustomer">Leads per Customer</label>
+                    <input id="leadPerCustomer" type="number" class="form-control" name="leadPerCustomer" min="0"
+                           max="10" value="2"/>
+                  </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <div th:insert="~{/general/footer.html}"></div>
+                <button type="submit" class="btn btn-primary">Generate</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div th:insert="~{/general/footer.html}"></div>
 </div>
 
 <script th:src="@{/js/library/jquery-3.2.1.min.js}" type="text/javascript"></script>
