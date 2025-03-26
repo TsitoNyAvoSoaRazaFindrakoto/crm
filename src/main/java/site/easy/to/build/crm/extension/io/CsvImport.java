@@ -33,7 +33,9 @@ public class CsvImport {
         csvMapper.readerFor(targetClass).with(schema).readValues(file.getInputStream());
       csvObjects = mappingIterator.readAll();
     } catch (IOException e) {
+      errorMessages.add("--- --- ---");
       errorMessages.add("Error reading CSV " + e.getMessage());
+      errorMessages.add("--- --- ---");
       return csvObjects;
     }
     validateCsvObjects(csvObjects, errorMessages,fileContent);
@@ -44,7 +46,6 @@ public class CsvImport {
     for (int i = 0; i < csvObjects.size(); i++) {
       Set<ConstraintViolation<T>> violations = validator.validate(csvObjects.get(i));
       if (!violations.isEmpty()) {
-        errorMessages.add("--- ---");
         for (ConstraintViolation<T> violation : violations) {
           String errorMessage = String.format(
             "Line %d of %s: Property '%s' failed validation: %s",
@@ -55,7 +56,6 @@ public class CsvImport {
           );
           errorMessages.add(errorMessage);
         }
-        errorMessages.add("--- ---");
       }
     }
   }
