@@ -43,12 +43,10 @@ public class QuickActionsController {
     try {
       quickActionsService.ImportData(customerFile, budgetFile, ticketLeadFile);
     } catch (PostPersistException | LocalValidationException e) {
-      model.addAttribute("messages", quickActionsService.getRunTimeErrors());
+      model.addAttribute("errorMessages", quickActionsService.getRunTimeErrors());
       return "data-modifier/csv/import-csv";
     }
-
     return "redirect:/quick-actions/database/import?success=true";
-
   }
 
   @GetMapping("/generate")
