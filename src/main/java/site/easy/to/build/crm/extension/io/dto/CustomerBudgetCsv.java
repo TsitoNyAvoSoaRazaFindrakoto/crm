@@ -1,4 +1,4 @@
-package site.easy.to.build.crm.extension.util.io.dto;
+package site.easy.to.build.crm.extension.io.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;

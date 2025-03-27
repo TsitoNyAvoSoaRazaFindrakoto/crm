@@ -1,4 +1,4 @@
-package site.easy.to.build.crm.extension.util.io.dto;
+package site.easy.to.build.crm.extension.io.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import site.easy.to.build.crm.customValidations.customer.UniqueEmail;
 
 import java.io.Serializable;
 
@@ -19,6 +20,7 @@ import java.io.Serializable;
 public class CustomerCsv implements Serializable {
 
   @Email
+  @UniqueEmail
   @NotBlank
   @JsonProperty("customer_email")
   String customerEmail;

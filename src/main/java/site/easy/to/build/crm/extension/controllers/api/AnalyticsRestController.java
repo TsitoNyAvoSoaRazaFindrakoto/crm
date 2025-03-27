@@ -1,10 +1,10 @@
-package site.easy.to.build.crm.controller.api;
+package site.easy.to.build.crm.extension.controllers.api;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import site.easy.to.build.crm.DTO.DashboardDTO;
-import site.easy.to.build.crm.service.budget.BudgetService;
-import site.easy.to.build.crm.service.budget.ExpenseService;
+import site.easy.to.build.crm.extension.service.BudgetService;
+import site.easy.to.build.crm.extension.service.ExpenseService;
 import site.easy.to.build.crm.service.customer.CustomerService;
 
 import java.math.BigDecimal;

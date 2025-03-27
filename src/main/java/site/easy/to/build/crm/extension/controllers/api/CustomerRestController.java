@@ -1,4 +1,4 @@
-package site.easy.to.build.crm.controller.api;
+package site.easy.to.build.crm.extension.controllers.api;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

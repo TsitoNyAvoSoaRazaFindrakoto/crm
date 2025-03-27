@@ -1,4 +1,4 @@
-package site.easy.to.build.crm.controller;
+package site.easy.to.build.crm.extension.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -8,13 +8,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import site.easy.to.build.crm.DTO.BudgetDTO;
 import site.easy.to.build.crm.entity.*;
-import site.easy.to.build.crm.service.budget.BudgetService;
-import site.easy.to.build.crm.service.budget.ExpenseService;
+import site.easy.to.build.crm.extension.service.BudgetService;
+import site.easy.to.build.crm.extension.service.ExpenseService;
 import site.easy.to.build.crm.service.lead.LeadService;
 import site.easy.to.build.crm.service.ticket.TicketService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @AllArgsConstructor
 @Controller

@@ -1,4 +1,4 @@
-package site.easy.to.build.crm.controller.api;
+package site.easy.to.build.crm.extension.controllers.api;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import site.easy.to.build.crm.entity.Expense;
 import site.easy.to.build.crm.entity.Ticket;
-import site.easy.to.build.crm.service.budget.ExpenseService;
+import site.easy.to.build.crm.extension.service.ExpenseService;
 import site.easy.to.build.crm.service.ticket.TicketService;
 
 import java.util.List;
