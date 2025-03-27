@@ -31,10 +31,16 @@ public class QuickActionsService {
       dataGenerationService.clearGeneratedData();
     } catch (LocalValidationException lve) {
       runTimeErrors = dataImportService.getDataImportErrors();
+      dataImportService.clearImportedDataErrors();
       throw lve;
     } catch (PostPersistException ppe) {
       runTimeErrors = dataGenerationService.getDataCompletionErrors();
+      dataGenerationService.clearDataCompletionErrors();
       throw ppe;
+    } catch (Exception e) {
+      dataImportService.clearImportedData();
+      dataGenerationService.clearGeneratedData();
+      throw e;
     }
   }
 

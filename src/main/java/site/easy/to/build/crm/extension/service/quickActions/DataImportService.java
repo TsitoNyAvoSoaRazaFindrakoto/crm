@@ -43,9 +43,8 @@ public class DataImportService {
     importCustomerCsv(customerFile);
     importCustomerBudgetCsv(customerBudgetFile);
     importTicketLeadCsv(ticketLeadFile);
-
-    if (!dataImportErrors.isEmpty()){
-      clearImportedData();
+		if (!dataImportErrors.isEmpty()) {
+			// ?Info : clearImportedData;
       throw new LocalValidationException();
     }
   }
@@ -56,7 +55,7 @@ public class DataImportService {
     ticketLeadCsvList.clear();
   }
 
-  public void clearDataImportErrors(){
+  public void clearImportedDataErrors() {
     dataImportErrors.clear();
   }
 
