@@ -13,6 +13,8 @@ import site.easy.to.build.crm.extension.exception.PostPersistException;
 import site.easy.to.build.crm.extension.io.dto.CustomerBudgetCsv;
 import site.easy.to.build.crm.extension.io.dto.CustomerCsv;
 import site.easy.to.build.crm.extension.io.dto.TicketLeadCsv;
+import site.easy.to.build.crm.service.customer.CustomerLoginInfoService;
+import site.easy.to.build.crm.service.customer.CustomerService;
 import site.easy.to.build.crm.service.user.UserService;
 import site.easy.to.build.crm.util.EmailTokenUtils;
 
@@ -29,24 +31,28 @@ import java.util.concurrent.ThreadLocalRandom;
 public class DataGenerationService {
   private final User adminUser;
   private final Faker dataGenerator;
+  private final CustomerLoginInfoService customerLoginInfoService;
+  private final CustomerService customerService;
   private final PasswordEncoder passwordEncoder;
   @PersistenceContext
   private final EntityManager entityManager;
   @Getter
   private final List<String> dataCompletionErrors = new ArrayList<>();
 
-  Map<String, CustomerLoginInfo> customerLoginInfos;
-  List<Ticket> tickets;
-  List<Lead> leads;
-  List<Expense> expenses;
-  List<Budget> budgets;
+  Map<String, CustomerLoginInfo> customerLoginInfos = new HashMap<>();
+  List<Ticket> tickets = new ArrayList<>();
+  List<Lead> leads = new ArrayList<>();
+  List<Budget> budgets = new ArrayList<>();
 
   String[] leadStatus = {"meeting-to-schedule", "scheduled", "archived", "success", "assign-to-sales"};
   String[] ticketStatus = {"open", "assigned", "on-hold", "in-progress", "resolved", "closed", "reopened", "pending" +
     "-customer-response", "escalated", "archived"};
   String[] ticketPriority = {"low", "medium", "high", "closed", "urgent", "critical"};
 
-  public DataGenerationService(UserService userService, PasswordEncoder passwordEncoder, EntityManager entityManager) {
+  public DataGenerationService(UserService userService, CustomerLoginInfoService customerLoginInfoService, PasswordEncoder passwordEncoder, EntityManager entityManager,
+                               CustomerService customerService) {
+    this.customerLoginInfoService = customerLoginInfoService;
+    this.customerService = customerService;
     this.entityManager = entityManager;
     dataGenerator = new Faker();
     adminUser = userService.findFirst();
@@ -57,8 +63,9 @@ public class DataGenerationService {
     customerLoginInfos = new HashMap<>();
     int i = 0;
     for (CustomerCsv customerCsv : customerCsvList) {
-      if (customerLoginInfos.containsKey(customerCsv.getCustomerEmail())) {
-        dataCompletionErrors.add("Customer with email " + customerCsv.getCustomerEmail() + "duplicated at row " + (i + 2));
+      if (customerLoginInfos.containsKey(customerCsv.getCustomerEmail()) || customerService.findByEmail(customerCsv.getCustomerEmail())!=null) {
+        dataCompletionErrors.add("Customer with email " + customerCsv.getCustomerEmail() + " at row " + (i + 2) +
+          " already exists");
       } else {
         CustomerLoginInfo customerLoginInfo = new CustomerLoginInfo();
         customerLoginInfo.setEmail(customerCsv.getCustomerEmail());
@@ -163,16 +170,19 @@ public class DataGenerationService {
   @Transactional(rollbackFor = SQLDataException.class)
   public void saveCustomers() throws SQLDataException {
     for (CustomerLoginInfo customerLoginInfo : customerLoginInfos.values()) {
-      entityManager.persist(customerLoginInfo.getCustomer()); // Persist the customer first
-      entityManager.persist(customerLoginInfo);
+      Customer customer = customerLoginInfo.getCustomer();
+      CustomerLoginInfo customerLoginInfo1 = customerLoginInfoService.save(customerLoginInfo);
+      customer.setCustomerLoginInfo(customerLoginInfo1);
+      Customer createdCustomer = customerService.save(customer);
+      customerLoginInfo1.setCustomer(createdCustomer);
+      customerLoginInfos.put(customerLoginInfo1.getEmail(),customerLoginInfo1);
     }
   }
 
 
   @Transactional(rollbackFor = SQLDataException.class)
   public void saveBudgets() throws SQLDataException {
-    for (Budget budget : budgets) {
-      entityManager.persist(budget.getCustomer()); // Persist the customer first
+    for (Budget budget : budgets) {// Persist the customer first
       entityManager.persist(budget);
     }
   }
@@ -211,6 +221,7 @@ public class DataGenerationService {
   public void clearGeneratedData() {
     budgets.clear();
     leads.clear();
+    tickets.clear();
     customerLoginInfos.clear();
   }
 
@@ -413,5 +424,9 @@ public class DataGenerationService {
     } catch (Exception e) {
       throw new SQLDataException("Erreur lors de la génération de données aléatoires: " + e.getMessage());
     }
+  }
+
+  public void clearDataCompletionErrors(){
+    dataCompletionErrors.clear();
   }
 }
