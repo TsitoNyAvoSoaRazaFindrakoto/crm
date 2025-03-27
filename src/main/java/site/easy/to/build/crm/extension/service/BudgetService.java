@@ -49,19 +49,6 @@ public class BudgetService {
         budgetRepository.delete(budget);
     }
 
-//    public List<BudgetDTO> getBudgetsAfterExpense(Integer customerId) {
-//        List<Object[]> rawResults = budgetRepository.getBudgetsAfterExpenseRaw(customerId);
-//        List<BudgetDTO> budgetDTOS = rawResults.stream().map(obj -> new BudgetDTO(
-//                (Integer) obj[0],
-//                (String) obj[1],
-//                obj[2] != null ? ((BigDecimal) obj[2]).doubleValue() : 0.0,
-//                obj[3] != null ? ((BigDecimal) obj[3]).doubleValue() : 0.0,
-//                obj[4] != null ? ((java.sql.Date) obj[4]).toLocalDate() : null,
-//                obj[5] != null ? ((java.sql.Date) obj[5]).toLocalDate() : null,
-//                (Integer) obj[6])).toList();
-//        return setStatus(budgetDTOS);
-//    }
-
     public List<BudgetDTO> setStatus(List<BudgetDTO> budgets) {
         Parameter parameter = parameterService.findThresholdAlert();
         for (BudgetDTO budget : budgets) {
@@ -77,9 +64,6 @@ public class BudgetService {
         return budgets;
     }
 
-//    public Double cumulBudget(Integer customerId) {
-//        return ((BigDecimal) budgetRepository.getBudgetsAfterExpenseRawGlobal(customerId)).doubleValue();
-//    }
 
     public BudgetDTO getBudgetGlobal(Integer customerId) {
         BudgetDTO budgetDTO = new BudgetDTO();

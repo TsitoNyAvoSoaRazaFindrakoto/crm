@@ -15,7 +15,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 @AllArgsConstructor
-public class AnalyticsRestController {
+public class DashBoardController {
     
     private final ExpenseService expenseService;
     private final BudgetService budgetService;
@@ -27,12 +27,9 @@ public class AnalyticsRestController {
         Map<String, Double> ticketExpensesByCustomer =expenseService.getTicketExpensesByCustomer();
         Map<String, Double> leadExpensesByCustomer = expenseService.getLeadExpensesByCustomer();
         Map<String, Double> budgetsByCustomer = budgetService.getBudgetsByCustomer();
-        Double totalTicketExpenses = expenseService.getTotalTicketExpenses().doubleValue();
-        Double totalLeadExpenses = expenseService.getTotalLeadExpenses().doubleValue();
-        Double totalBudgets = budgetService.getTotalBudget().doubleValue();
 
         return new DashboardDTO(ticketExpensesByCustomer, leadExpensesByCustomer, budgetsByCustomer,
-                totalTicketExpenses, totalLeadExpenses, totalBudgets);
+        expenseService.getTotalTicketExpenses().doubleValue(), expenseService.getTotalLeadExpenses().doubleValue(), budgetService.getTotalBudget().doubleValue());
     }
 
 
