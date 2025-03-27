@@ -41,17 +41,8 @@
             <div class="card-body">
               <h4 class="card-title">CSV File Import</h4>
               <h6 class="card-subtitle">Upload your data files in CSV format</h6>
-
-              <div class="alert alert-info">
-                <i class="fas fa-info-circle"></i>
-                CSV files must adhere to the system's required format. Ensure your data is correctly formatted.
-              </div>
-              <!--                            show error data expetion sql (foreign key etc)-->
-              <div th:if="${ != null}" class="alert alert-danger">
-                <p class="text-danger" th:if="${sqlError != null}" th:utext="${sqlError}"></p>
-              </div>
-
-              <form th:action="@{/csv/import}" method="post" enctype="multipart/form-data" class="mt-4">
+              <form th:action="@{/quick-actions/database/import}" method="post" enctype="multipart/form-data"
+                    class="mt-4">
                 <div class="form-group row">
                   <label for="customercsv" class="col-md-3 col-form-label">Customer CSV File</label>
                   <div class="col-md-9">
@@ -97,6 +88,10 @@
                   </div>
                 </div>
               </form>
+              <!--                            show error data expetion sql (foreign key etc)-->
+              <div th:if="${ errorMessages != null}" class="alert alert-danger">
+                <p class="text-danger" th:each="errorMessage : ${errorMessages}" th:text="${errorMessage}"></p>
+              </div>
             </div>
           </div>
         </div>
