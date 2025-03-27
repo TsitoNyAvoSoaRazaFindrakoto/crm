@@ -8,7 +8,6 @@ import site.easy.to.build.crm.entity.*;
 import site.easy.to.build.crm.extension.io.dto.CustomerJson;
 import site.easy.to.build.crm.extension.service.BudgetService;
 import site.easy.to.build.crm.service.customer.CustomerLoginInfoService;
-import site.easy.to.build.crm.service.customer.CustomerService;
 import site.easy.to.build.crm.service.lead.LeadService;
 import site.easy.to.build.crm.service.ticket.TicketService;
 
@@ -21,7 +20,6 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class DuplicationService {
-  private final CustomerService customerService;
   private final TicketService ticketService;
   private final LeadService leadService;
   private final BudgetService budgetService;
