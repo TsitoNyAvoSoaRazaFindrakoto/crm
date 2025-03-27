@@ -14,36 +14,38 @@ import java.io.Serializable;
 @JsonPropertyOrder({ "customer_email", "subject_or_name", "type", "status", "expense" })
 public class TicketLeadCsv implements Serializable {
 
-  @Email
-  @NotBlank
-  @JsonProperty("customer_email")
-  String customerEmail;
+	@Email
+	@NotBlank
+	@JsonProperty("customer_email")
+	String customerEmail;
 
-  @NotBlank
-  @JsonProperty("subject_or_name")
-  String subjectOrName;
+	@NotBlank
+	@JsonProperty("subject_or_name")
+	String subjectOrName;
 
-  @NotBlank
-  @Pattern(regexp = "^(ticket|lead)$", message = "Type is either ticket or lead")
-  @JsonProperty("type")
-  String type;
+	@NotBlank
+	@Pattern(regexp = "^(ticket|lead)$", message = "Type is either ticket or lead")
+	@JsonProperty("type")
+	String type;
 
-  @NotBlank
-  @Pattern(regexp = "^(open|assigned|on-hold|in-progress|resolved|closed|reopened|pending-customer-response|escalated|archived|meeting-to-schedule|scheduled|success|assign-to-sales)$", message = "Invalid status")
-  @JsonProperty("status")
-  String status;
+	@JsonProperty(value = "status")
+	@NotBlank(message = "Status is required")
+	@Pattern(regexp = "^(open|assigned|on-hold|in-progress|resolved|closed|reopened|pending-customer-response|escalated|archived|meeting-to-schedule|scheduled|success|assign-to-sales)$", message = "Invalid status for ticket or leads")
+	public String status;
 
-  @Positive
-  @JsonProperty("expense")
-  Double expense;
+	@JsonProperty(value = "expense")
+	@Positive(message = "Expense must be a positive number")
+	public Double expense;
 
-  @AssertTrue(message = "invalid for type")
-  public boolean isStatusValid() {
-    if (type.equalsIgnoreCase("ticket")) {
-      return type.matches("^(open|assigned|on-hold|in-progress|resolved|closed|reopened|pending-customer-response" + "|escalated|archived)$");
-    } else {
-      return type.matches("^(meeting-to-schedule|scheduled|archived|success|assign-to-sales)$");
-    }
-  }
+	@AssertTrue(message = "Status is invalid for the provided type")
+	public boolean isStatusValid() {
+		if ("ticket".equalsIgnoreCase(type) || "tickets".equalsIgnoreCase(type)) {
+			return status.matches("^(open|assigned|on-hold|in-progress|resolved|closed|reopened|pending-customer-response|escalated|archived)$");
+		} else if ("lead".equalsIgnoreCase(type) || "leads".equalsIgnoreCase(type)) {
+			status.matches("^(meeting-to-schedule|scheduled|archived|success|assign-to-sales)$");
+		}
+		System.out.println("TicketLeadCsv.isStatusValid()..." + status + " : " + type);
+		return false;
+	}
 
 }
