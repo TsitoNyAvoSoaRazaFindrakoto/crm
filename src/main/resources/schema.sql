@@ -328,7 +328,6 @@ CREATE TABLE IF NOT EXISTS expense
     amount       decimal(10, 2) NOT NULL,
     date_expense date           NOT NULL,
     description  varchar(255) DEFAULT NULL,
-    budget_id    int unsigned DEFAULT NULL,
     PRIMARY KEY (expense_id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
